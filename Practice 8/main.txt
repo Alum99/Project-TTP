@@ -1,0 +1,68 @@
+
+# Заглушки для основных процедур
+
+# Заглушка ввод исходных данных
+# text_data - текст, который уже был введён
+# processed_data - результат алгоритма, если он уже был выполнен
+def input_data(text_data, processed_data):
+    print("Ввод данных (заглушка)")
+    input("pause...") # чтобы программа не "проскакивала" дальше сразу
+    return "пример текста", None  # при новом вводе результат сбрасывается
+
+# Заглушка выполнение алгоритма
+def run_algorithm(text_data, processed_data):
+    print("Выполнение алгоритма (заглушка)")
+    input("pause...")
+    return text_data, ["результат"] # возвращается список
+
+# Заглушка вывод результата
+def output_result(text_data, processed_data):
+    print("Вывод результата (заглушка)")
+    input("pause...")
+    return text_data, processed_data # Возвращает переданные значения без изменений
+
+# Заглушка завершение программы
+def exit_program(text_data, processed_data):
+    print("Выход из программы (заглушка)")
+    return text_data, processed_data, True # Чтобы завершился цикл
+
+
+# Главное меню (структура)
+def menu_main():
+    """
+    Циклическое меню — структура программы без логики зависимостей
+    """
+    text_data = None # текст, введённый пользователем
+    processed_data = None # результат выполнения алгоритма
+    is_exit = False # флаг выхода из программы
+
+    while not is_exit: # пока не пункт выхода
+        caption_start = (
+            "\n=== Главное меню ===\n"
+            "1) Ввод исходных данных\n"
+            "2) Выполнение алгоритма\n"
+            "3) Вывод результата\n"
+            "0) Выход\n"
+        )
+        caption_err = "Ошибка: неверный пункт меню!"
+        print(caption_start)
+        ch = input("Выберите пункт меню: ")
+
+        if ch == "1":
+            text_data, processed_data = input_data(text_data, processed_data)
+        elif ch == "2":
+            text_data, processed_data = run_algorithm(text_data, processed_data)
+        elif ch == "3":
+            text_data, processed_data = output_result(text_data, processed_data)
+        elif ch == "0":
+            text_data, processed_data, is_exit = exit_program(text_data, processed_data)
+        else:
+            print(caption_err)
+            input("pause...")
+
+    print("Программа завершена.")
+
+
+# Точка входа
+if __name__ == "__main__":
+    menu_main()
