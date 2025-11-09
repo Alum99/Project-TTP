@@ -1,42 +1,87 @@
+import random # для генерации случайных слов
+import string # для работы с буквами
 
-# Заглушки для основных процедур
+# Основные функции программы
 
-# Заглушка ввод исходных данных
-# text_data - текст, который уже был введён
-# processed_data - результат алгоритма, если он уже был выполнен
 def input_data(text_data, processed_data):
-    print("Ввод данных (заглушка)")
-    input("pause...") # чтобы программа не "проскакивала" дальше сразу
-    return "пример текста", None  # при новом вводе результат сбрасывается
+    """
+    Ввод исходных данных (вручную или случайно).
+    Возвращает (новый текст, None) — результат сбрасывается.
+    """
+    print("\n=== Ввод исходных данных ===")
+    print("1) Ввести текст вручную")
+    print("2) Сгенерировать случайный текст")
+    choice = input("Выберите способ ввода : ")
 
-# Заглушка выполнение алгоритма
+    if choice == "1":
+        text_data = input("Введите текст: ")
+    elif choice == "2":
+        words = [ # генерация случайных слов
+            "".join(random.choices(string.ascii_lowercase, k=random.randint(3, 8)))
+            for _ in range(10)
+        ]
+        text_data = " ".join(words)
+        print("Сгенерированный текст:", text_data)
+    else:
+        print("Некорректный выбор! Данные не изменены.")
+        return text_data, processed_data
+
+    return text_data, None  # результат сбрасывается при новом вводе
+
+
 def run_algorithm(text_data, processed_data):
-    print("Выполнение алгоритма (заглушка)")
-    input("pause...")
-    return text_data, ["результат"] # возвращается список
+    """
+    Выполнение алгоритма:
+    Разворачивает каждое слово текста.
+    """
+    print("\n=== Выполнение алгоритма ===")
+    if text_data is None: # был ли введён текст
+        print("Ошибка: данные не были введены!")
+        return text_data, processed_data
 
-# Заглушка вывод результата
+    # Разделяем текст на слова и разворачиваем
+    words = [word.strip(string.punctuation) for word in text_data.split()]
+    processed_data = [word[::-1] for word in words]
+    print("Алгоритм успешно выполнен.")
+    return text_data, processed_data
+
+
 def output_result(text_data, processed_data):
-    print("Вывод результата (заглушка)")
-    input("pause...")
-    return text_data, processed_data # Возвращает переданные значения без изменений
+    """
+    Вывод результата
+    """
+    print("\n=== Вывод результата ===")
+    if text_data is None:
+        print("Ошибка: данные не были введены!")
+    elif processed_data is None:
+        print("Ошибка: алгоритм ещё не выполнен!")
+    else:
+        print("Исходный текст:")
+        print(text_data)
+        print("Результат (слова развёрнутые):")
+        print(processed_data)
+    return text_data, processed_data
 
-# Заглушка завершение программы
+
 def exit_program(text_data, processed_data):
-    print("Выход из программы (заглушка)")
-    return text_data, processed_data, True # Чтобы завершился цикл
+    """
+    Завершение программы
+    """
+    print("Выход из программы...")
+    return text_data, processed_data, True
 
 
-# Главное меню (структура)
+# Главное меню
+
 def menu_main():
     """
-    Циклическое меню — структура программы без логики зависимостей
+    Главное меню
     """
     text_data = None # текст, введённый пользователем
     processed_data = None # результат выполнения алгоритма
     is_exit = False # флаг выхода из программы
 
-    while not is_exit: # пока не пункт выхода
+    while not is_exit:
         caption_start = (
             "\n=== Главное меню ===\n"
             "1) Ввод исходных данных\n"
@@ -58,10 +103,8 @@ def menu_main():
             text_data, processed_data, is_exit = exit_program(text_data, processed_data)
         else:
             print(caption_err)
-            input("pause...")
 
     print("Программа завершена.")
-
 
 # Точка входа
 if __name__ == "__main__":
